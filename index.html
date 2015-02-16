@@ -1,0 +1,49 @@
+<html>
+
+     <head>
+
+          <script src="jquery.min.js"></script>
+          <script>
+          $(document).ready(function(){
+
+              // alles verstecken, aktive seite wird nach server-request geholt
+              $(".page").hide();
+              
+              // aktive seite, erstmal nicht gesetzt
+              var currentPage = 0;
+
+              // polling der aktuellen seite 1mal pro sekunde
+              setInterval(function(){
+                   $.ajax({ url: "/getPage", success: function(data){
+
+                         // aktuelle seite hat sich geändert
+                         if (currentPage != data) {
+                              // alle seiten ausblenden, aktuelle seite zeigen
+                              $(".page").hide();
+                              $("#" + data ).show();
+                              currentPage = data;
+                         }
+                         
+                   }, dataType: "json"});
+               }, 1000);
+
+          });
+          </script>
+
+     </head>
+
+     <body>
+
+          <div id="p1" class="page">page 1</div>
+
+          <div id="p2" class="page">page 2</div>
+
+          <div id="p3" class="page">page 3</div>
+
+          <div id="p4" class="page">page 4</div>
+
+          <div id="p5" class="page">page 5</div>
+
+     </body>
+
+</html>
